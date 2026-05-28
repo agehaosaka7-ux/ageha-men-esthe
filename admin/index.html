@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ageha | 管理画面</title>
   
+  <!-- Netlify Identity (ログイン認証ウィジェット) の読み込み -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  
   <!-- 自動初期化を無効にする設定を先に記述する -->
   <script>
     window.CMS_MANUAL_INIT = true;
@@ -17,7 +20,7 @@
   <script>
     // デバイスやサーバー環境に依存しないよう、JSオブジェクトとして直接設定を記述
     const config = {
-      local_backend: true,
+      // 本番公開時は local_backend を削除して git-gateway を使用
       backend: {
         name: "git-gateway",
         branch: "main"
