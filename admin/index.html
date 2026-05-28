@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ageha | 管理画面</title>
+  
+  <!-- 自動初期化を無効にする設定を先に記述する -->
+  <script>
+    window.CMS_MANUAL_INIT = true;
+  </script>
+  
+  <!-- Decap CMS の読み込み -->
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+</head>
+<body>
+  <script>
+    // デバイスやサーバー環境に依存しないよう、JSオブジェクトとして直接設定を記述
+    const config = {
+      local_backend: true,
+      backend: {
+        name: "git-gateway",
+        branch: "main"
+      },
+      media_folder: "assets",
+      public_folder: "assets",
+      collections: [
+        {
+          name: "site_data",
+          label: "サイトコンテンツ管理",
+          delete: false,
+          editor: {
+            preview: false
+          },
+          files: [
+            // 1. 新着お知らせ
+            {
+              file: "data/news.json",
+              label: "新着お知らせ",
+              name: "news",
+              fields: [
+                {
+                  label: "お知らせ一覧",
+                  name: "news_items",
+                  widget: "list",
+                  fields: [
+                    { label: "日付", name: "date", widget: "string" },
+                    { label: "お知らせ内容", name: "text", widget: "string" },
+                    { label: "詳細URL（任意）", name: "link", widget: "string", required: false }
+                  ]
+                }
+              ]
+            },
+            // 2. セラピスト一覧
+            {
+              file: "data/therapists.json",
+              label: "セラピスト情報管理",
+              name: "therapists",
+              fields: [
+                {
+                  label: "在籍キャスト一覧",
+                  name: "therapist_items",
+                  widget: "list",
+                  fields: [
+                    { label: "キャストID（英字一意・例: riri）", name: "id", widget: "string" },
+                    { label: "キャスト名（表示用）", name: "name", widget: "string" },
+                    { label: "年齢", name: "age", widget: "string" },
+                    { label: "身長", name: "height", widget: "string" },
+                    { label: "キャスト画像", name: "image", widget: "image" },
+                    { label: "デフォルト基本出勤時間", name: "time", widget: "string" },
+                    { label: "新人フラグ", name: "is_new", widget: "boolean", default: false }
+                  ]
+                }
+              ]
+            },
+            // 3. 日別出勤スケジュール
+            {
+              file: "data/schedule.json",
+              label: "出勤スケジュール管理",
+              name: "schedule",
+              fields: [
+                {
+                  label: "日別出勤状況",
+                  name: "days",
+                  widget: "list",
+                  fields: [
+                    { label: "日付キー（固定: today, tomorrow, dayafter）", name: "day_key", widget: "string" },
+                    { label: "日付表示ラベル（例: 本日 5/28 (木)）", name: "day_label", widget: "string" },
+                    {
+                      label: "出勤するキャスト",
+                      name: "casts",
+                      widget: "list",
+                      fields: [
+                        { label: "キャストID（登録済みの英字ID）", name: "therapist_id", widget: "string" },
+                        { label: "出勤時間（例: 15:00 〜 翌2:00 / ご予約完売）", name: "time", widget: "string" },
+                        { label: "ご予約完売フラグ", name: "is_soldout", widget: "boolean", default: false }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            // 4. セラピストブログ
+            {
+              file: "data/blogs.json",
+              label: "キャストブログ管理",
+              name: "blogs",
+              fields: [
+                {
+                  label: "ブログ投稿一覧",
+                  name: "blog_items",
+                  widget: "list",
+                  fields: [
+                    { label: "投稿日（例: 2026.05.28）", name: "date", widget: "string" },
+                    { label: "執筆キャスト名（表示用）", name: "cast_name", widget: "string" },
+                    { label: "ブログタイトル", name: "title", widget: "string" },
+                    { label: "ブログ本文（プレーンテキスト）", name: "summary", widget: "text" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    };
+
+    // CMSをマニュアル初期化
+    CMS.init({ config });
+  </script>
+</body>
+</html>

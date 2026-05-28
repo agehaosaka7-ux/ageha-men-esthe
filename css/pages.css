@@ -1,0 +1,712 @@
+/* ==========================================
+   HERO SECTION (ヒーローエリア)
+   ========================================== */
+.hero {
+    height: 100vh;
+    min-height: 600px;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)), url('../assets/hero_bg.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    position: relative;
+    color: var(--color-white);
+    padding-top: var(--header-height);
+}
+
+@media (max-width: 768px) {
+    .hero {
+        background-attachment: scroll;
+        height: 80vh;
+    }
+}
+
+.hero-content {
+    width: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-title-container {
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 縦書きの和風ラグジュアリーキャッチコピー */
+.hero-catch {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    font-weight: 300;
+    line-height: 1.8;
+    letter-spacing: 0.3em;
+    color: var(--color-white);
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+}
+
+.hero-catch span {
+    display: block;
+}
+
+.hero-sub {
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 40px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+    .hero-catch {
+        font-size: 1.8rem;
+    }
+    .hero-sub {
+        font-size: 0.8rem;
+    }
+}
+
+/* ==========================================
+   NEWS SECTION (お知らせ)
+   ========================================== */
+.news-list {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.news-item {
+    display: flex;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.news-date {
+    width: 120px;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    color: var(--color-accent);
+    flex-shrink: 0;
+}
+
+.news-text {
+    flex-grow: 1;
+    font-size: 0.95rem;
+}
+
+.news-text a:hover {
+    color: var(--color-accent);
+}
+
+.news-more {
+    text-align: center;
+    margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+    .news-item {
+        flex-direction: column;
+        padding: 16px 0;
+    }
+    .news-date {
+        margin-bottom: 6px;
+    }
+}
+
+/* ==========================================
+   NEW THERAPIST SECTION (新人紹介)
+   ========================================== */
+.new-therapist-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 50px;
+}
+
+@media (max-width: 1024px) {
+    .new-therapist-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 560px) {
+    .new-therapist-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.therapist-card {
+    background-color: var(--color-white);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    position: relative;
+    transition: var(--transition-smooth);
+}
+
+.therapist-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.therapist-card-img {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+}
+
+.therapist-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-smooth);
+}
+
+.therapist-card:hover .therapist-card-img img {
+    transform: scale(1.05);
+}
+
+.new-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: var(--color-accent-pink);
+    color: var(--color-white);
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    letter-spacing: 0.1em;
+    z-index: 5;
+}
+
+.soldout-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 4;
+}
+
+.soldout-badge {
+    background-color: rgba(181, 141, 99, 0.95);
+    color: var(--color-white);
+    font-family: var(--font-serif);
+    font-size: 0.9rem;
+    padding: 10px 20px;
+    letter-spacing: 0.1em;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.therapist-card-info {
+    padding: 20px;
+    text-align: center;
+}
+
+.therapist-card-name {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+    margin-bottom: 6px;
+}
+
+.therapist-card-meta {
+    font-size: 0.75rem;
+    color: var(--color-text-sub);
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+}
+
+.therapist-card-time {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    color: var(--color-accent);
+    font-weight: 500;
+    border-top: 1px solid var(--border-color);
+    padding-top: 10px;
+    display: block;
+}
+
+/* ==========================================
+   SCHEDULE SECTION (出勤スケジュール)
+   ========================================== */
+.schedule-container {
+    background-color: var(--bg-secondary);
+    padding: 100px 0;
+}
+
+@media (max-width: 768px) {
+    .schedule-container {
+        padding: 60px 0;
+    }
+}
+
+.schedule-tabs {
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 40px;
+}
+
+.schedule-tab {
+    padding: 15px 30px;
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    color: var(--color-text-sub);
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+}
+
+.schedule-tab.active {
+    color: var(--color-text-main);
+    font-weight: 600;
+}
+
+.schedule-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-accent-pink);
+}
+
+.schedule-day-content {
+    display: none;
+}
+
+.schedule-day-content.active {
+    display: block;
+}
+
+.schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+@media (max-width: 1024px) {
+    .schedule-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 560px) {
+    .schedule-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================
+   BLOG SECTION (ブログ)
+   ========================================== */
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+@media (max-width: 900px) {
+    .blog-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.blog-card {
+    background-color: var(--color-white);
+    border: 1px solid var(--border-color);
+    padding: 24px;
+    transition: var(--transition-smooth);
+}
+
+.blog-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+}
+
+.blog-card-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--color-text-sub);
+    margin-bottom: 12px;
+}
+
+.blog-card-cast {
+    color: var(--color-accent);
+    font-family: var(--font-serif);
+    font-weight: 500;
+}
+
+.blog-card-title {
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+.blog-card-title a:hover {
+    color: var(--color-accent);
+}
+
+.blog-card-summary {
+    font-size: 0.85rem;
+    color: var(--color-text-sub);
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ==========================================
+   CONCEPT PAGE (コンセプトページ)
+   ========================================== */
+.subpage-hero {
+    height: 300px;
+    background-color: var(--bg-secondary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-top: var(--header-height);
+}
+
+.subpage-hero h1 {
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
+    font-weight: 500;
+}
+
+.subpage-hero p {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-top: 8px;
+}
+
+@media (max-width: 768px) {
+    .subpage-hero {
+        height: 220px;
+    }
+    .subpage-hero h1 {
+        font-size: 1.8rem;
+    }
+}
+
+.concept-intro {
+    max-width: 800px;
+    margin: 0 auto 80px auto;
+    text-align: center;
+}
+
+.concept-intro h2 {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    font-weight: 400;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.concept-intro p {
+    color: var(--color-text-sub);
+}
+
+.concept-blocks {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+}
+
+.concept-block {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.concept-block:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.concept-block-img {
+    flex: 1;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.concept-block-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.concept-block-text {
+    flex: 1;
+}
+
+.concept-block-text h3 {
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+    color: var(--color-accent);
+}
+
+@media (max-width: 768px) {
+    .concept-block, .concept-block:nth-child(even) {
+        flex-direction: column;
+        gap: 30px;
+    }
+    .concept-block-img {
+        width: 100%;
+    }
+}
+
+/* ==========================================
+   SYSTEM PAGE (料金システム)
+   ========================================== */
+.system-intro {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 60px auto;
+}
+
+.price-table-container {
+    max-width: 800px;
+    margin: 0 auto 60px auto;
+}
+
+.price-table-title {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    font-weight: 600;
+    border-left: 3px solid var(--color-accent-pink);
+    padding-left: 15px;
+    margin-bottom: 24px;
+}
+
+.price-list {
+    background-color: var(--color-white);
+    border: 1px solid var(--border-color);
+    padding: 10px 30px;
+}
+
+.price-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.price-item:last-child {
+    border-bottom: none;
+}
+
+.price-name {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.price-desc {
+    font-size: 0.8rem;
+    color: var(--color-text-sub);
+    display: block;
+    margin-top: 4px;
+}
+
+.price-value {
+    font-family: var(--font-sans);
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--color-text-main);
+}
+
+.price-value span {
+    font-size: 0.9rem;
+    color: var(--color-text-sub);
+    margin-left: 4px;
+}
+
+.payment-info {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    padding: 30px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.payment-info h3 {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.payment-info ul li {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    position: relative;
+    padding-left: 15px;
+}
+
+.payment-info ul li::before {
+    content: '・';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+}
+
+/* ==========================================
+   HOWTO PAGE (ご利用案内)
+   ========================================== */
+.step-list {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.step-card {
+    background-color: var(--color-white);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: stretch;
+}
+
+.step-num {
+    background-color: var(--color-accent);
+    color: var(--color-white);
+    font-family: var(--font-sans);
+    font-size: 1.8rem;
+    font-weight: 600;
+    width: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.step-body {
+    padding: 30px;
+    flex-grow: 1;
+}
+
+.step-title {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.step-text {
+    font-size: 0.9rem;
+    color: var(--color-text-sub);
+}
+
+@media (max-width: 600px) {
+    .step-card {
+        flex-direction: column;
+    }
+    .step-num {
+        width: 100%;
+        height: 50px;
+    }
+    .step-body {
+        padding: 20px;
+    }
+}
+
+/* ==========================================
+   RECRUIT PAGE (求人情報)
+   ========================================== */
+.recruit-intro {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 60px auto;
+}
+
+.recruit-table {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto 50px auto;
+    border-collapse: collapse;
+}
+
+.recruit-table th, .recruit-table td {
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    text-align: left;
+}
+
+.recruit-table th {
+    background-color: var(--bg-secondary);
+    font-family: var(--font-serif);
+    font-weight: 600;
+    width: 200px;
+}
+
+.recruit-table td {
+    background-color: var(--color-white);
+    font-size: 0.9rem;
+}
+
+.recruit-cta {
+    text-align: center;
+    background-color: var(--bg-secondary);
+    padding: 50px 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    border: 1px solid var(--border-color);
+}
+
+.recruit-cta h3 {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+}
+
+.recruit-cta p {
+    font-size: 0.9rem;
+    color: var(--color-text-sub);
+    margin-bottom: 30px;
+}
+
+.btn-line-rect {
+    display: inline-block;
+    padding: 16px 40px;
+    background-color: #06c755;
+    color: var(--color-white);
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-line-rect:hover {
+    background-color: #05b04b;
+}
+
+@media (max-width: 768px) {
+    .recruit-table th, .recruit-table td {
+        display: block;
+        width: 100%;
+    }
+    .recruit-table th {
+        border-bottom: none;
+    }
+}

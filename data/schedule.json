@@ -1,0 +1,57 @@
+{
+  "days": [
+    {
+      "day_key": "today",
+      "day_label": "本日 5/28 (木)",
+      "casts": [
+        {
+          "therapist_id": "riri",
+          "time": "15:00 〜 翌2:00",
+          "is_soldout": false
+        },
+        {
+          "therapist_id": "shion",
+          "time": "ご予約完売",
+          "is_soldout": true
+        },
+        {
+          "therapist_id": "mio",
+          "time": "18:00 〜 翌4:00",
+          "is_soldout": false
+        }
+      ]
+    },
+    {
+      "day_key": "tomorrow",
+      "day_label": "明日 5/29 (金)",
+      "casts": [
+        {
+          "therapist_id": "riri",
+          "time": "15:00 〜 翌2:00",
+          "is_soldout": false
+        },
+        {
+          "therapist_id": "shion",
+          "time": "16:00 〜 翌3:00",
+          "is_soldout": false
+        }
+      ]
+    },
+    {
+      "day_key": "dayafter",
+      "day_label": "明後日 5/30 (土)",
+      "casts": [
+        {
+          "therapist_id": "shion",
+          "time": "16:00 〜 翌3:00",
+          "is_soldout": false
+        },
+        {
+          "therapist_id": "mio",
+          "time": "18:00 〜 翌4:00",
+          "is_soldout": false
+        }
+      ]
+    }
+  ]
+}

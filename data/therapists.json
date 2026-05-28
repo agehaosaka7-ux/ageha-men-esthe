@@ -1,0 +1,31 @@
+{
+  "therapist_items": [
+    {
+      "id": "riri",
+      "name": "莉莉 -りり-",
+      "age": "26歳",
+      "height": "158cm",
+      "image": "assets/therapist_riri.png",
+      "time": "15:00 〜 翌2:00",
+      "is_new": true
+    },
+    {
+      "id": "shion",
+      "name": "紫音 -しおん-",
+      "age": "24歳",
+      "height": "162cm",
+      "image": "assets/therapist_shion.png",
+      "time": "16:00 〜 翌3:00",
+      "is_new": false
+    },
+    {
+      "id": "mio",
+      "name": "美桜 -みお-",
+      "age": "25歳",
+      "height": "160cm",
+      "image": "assets/therapist_mio.png",
+      "time": "18:00 〜 翌4:00",
+      "is_new": true
+    }
+  ]
+}
