@@ -12,16 +12,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // データの読み込み
-    const [therapistsData, newsData, scheduleData, blogsData] = await Promise.all([
+    const [therapistsData, newsData, scheduleData, blogsData, siteConfigData] = await Promise.all([
         fetchData("data/therapists.json"),
         fetchData("data/news.json"),
         fetchData("data/schedule.json"),
-        fetchData("data/blogs.json")
+        fetchData("data/blogs.json"),
+        fetchData("data/site_config.json")
     ]);
 
     if (!therapistsData) {
         console.error("Critical: Failed to load therapists database.");
         return;
+    }
+
+    // メインバナー背景画像の動的設定
+    if (siteConfigData && siteConfigData.hero_bg) {
+        const heroSection = document.querySelector(".hero");
+        if (heroSection) {
+            heroSection.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)), url('${siteConfigData.hero_bg}')`;
+        }
     }
 
     // セラピストマップ (ID -> キャスト詳細) の作成
