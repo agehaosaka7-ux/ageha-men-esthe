@@ -1,182 +1,181 @@
-
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ageha | 管理画面</title>
-  
-  <!-- Netlify Identity (ログイン認証ウィジェット) の読み込み -->
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  
-  <!-- 自動初期化を無効にする設定を先に記述する -->
-  <script>
-    window.CMS_MANUAL_INIT = true;
-  </script>
-  
-  <!-- Decap CMS の読み込み -->
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-</head>
-<body>
-  <script>
-    // デバイスやサーバー環境に依存しないよう、JSオブジェクトとして直接設定を記述
-    const config = {
-      // 本番公開時は local_backend を削除して git-gateway を使用
-      backend: {
-        name: "git-gateway",
-        branch: "main"
-      },
-      media_folder: "assets",
-      public_folder: "assets",
-      collections: [
-        {
-          name: "site_data",
-          label: "サイトコンテンツ管理",
-          delete: false,
-          editor: {
-            preview: false
-          },
-          files: [
-            // 1. 新着お知らせ
-            {
-              file: "data/news.json",
-              label: "新着お知らせ",
-              name: "news",
-              fields: [
-                {
-                  label: "お知らせ一覧",
-                  name: "news_items",
-                  widget: "list",
-                  fields: [
-                    { label: "日付", name: "date", widget: "string" },
-                    { label: "お知らせ内容", name: "text", widget: "string" },
-                    { label: "詳細URL（任意）", name: "link", widget: "string", required: false }
-                  ]
-                }
-              ]
-            },
-            // 2. セラピスト一覧
-            {
-              file: "data/therapists.json",
-              label: "セラピスト情報管理",
-              name: "therapists",
-              fields: [
-                {
-                  label: "在籍キャスト一覧",
-                  name: "therapist_items",
-                  widget: "list",
-                  fields: [
-                    { label: "キャストID（英字一意・例: riri）", name: "id", widget: "string" },
-                    { label: "キャスト名（表示用）", name: "name", widget: "string" },
-                    { label: "年齢", name: "age", widget: "string" },
-                    { label: "身長", name: "height", widget: "string" },
-                    { label: "キャスト画像", name: "image", widget: "image" },
-                    { label: "デフォルト基本出勤時間", name: "time", widget: "string" },
-                    { label: "新人フラグ", name: "is_new", widget: "boolean", default: false }
-                  ]
-                }
-              ]
-            },
-            // 3. 日別出勤スケジュール
-            {
-              file: "data/schedule.json",
-              label: "出勤スケジュール管理",
-              name: "schedule",
-              fields: [
-                {
-                  label: "日別出勤状況",
-                  name: "days",
-                  widget: "list",
-                  fields: [
-                    { label: "日付キー（固定: today, tomorrow, dayafter）", name: "day_key", widget: "string" },
-                    { label: "日付表示ラベル（例: 本日 5/28 (木)）", name: "day_label", widget: "string" },
-                    {
-                      label: "出勤するキャスト",
-                      name: "casts",
-                      widget: "list",
-                      fields: [
-                        { label: "キャストID（登録済みの英字ID）", name: "therapist_id", widget: "string" },
-                        { label: "出勤時間（例: 15:00 〜 翌2:00 / ご予約完売）", name: "time", widget: "string" },
-                        { label: "ご予約完売フラグ", name: "is_soldout", widget: "boolean", default: false }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            // 4. セラピストブログ
-            {
-              file: "data/blogs.json",
-              label: "キャストブログ管理",
-              name: "blogs",
-              fields: [
-                {
-                  label: "ブログ投稿一覧",
-                  name: "blog_items",
-                  widget: "list",
-                  fields: [
-                    { label: "投稿日（例: 2026.05.28）", name: "date", widget: "string" },
-                    { label: "執筆キャスト名（表示用）", name: "cast_name", widget: "string" },
-                    { label: "ブログタイトル", name: "title", widget: "string" },
-                    { label: "ブログ本文（プレーンテキスト）", name: "summary", widget: "text" }
-                  ]
-                }
-              ]
-            },
-            // 5. サイト基本設定
-            {
-              file: "data/site_config.json",
-              label: "サイト基本設定 (バナー等)",
-              name: "site_config",
-              fields: [
-                { label: "メインバナー背景画像", name: "hero_bg", widget: "image" }
-              ]
-            },
-            // 6. 料金システム設定
-            {
-              file: "data/prices.json",
-              label: "料金システム管理",
-              name: "prices",
-              fields: [
-                {
-                  label: "基本コース設定",
-                  name: "courses",
-                  widget: "list",
-                  fields: [
-                    { label: "コースカテゴリ名（例: Standard Course）", name: "category", widget: "string" },
-                    { label: "カテゴリ説明文", name: "description", widget: "string" },
-                    {
-                      label: "コース料金一覧",
-                      name: "items",
-                      widget: "list",
-                      fields: [
-                        { label: "コース名（例: 90分コース）", name: "name", widget: "string" },
-                        { label: "コース説明", name: "desc", widget: "string" },
-                        { label: "料金（例: 20,000）", name: "price", widget: "string" }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  label: "オプション料金設定",
-                  name: "options",
-                  widget: "list",
-                  fields: [
-                    { label: "オプション名", name: "name", widget: "string" },
-                    { label: "料金（例: 2,000 または 無料）", name: "price", widget: "string" }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    };
+  <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Ageha | &#x7BA1;&#x7406;&#x753B;&#x9762;</title>
+    
+    <!-- Netlify Identity widget -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    
+    <!-- Disable auto initialization -->
+    <script>
+          window.CMS_MANUAL_INIT = true;
+    </script>
 
-    // CMSをマニュアル初期化
-    CMS.init({ config });
-  </script>
-</body>
-</html>
-Pressing key...Clicking...Stopping...
+      <!-- Load Decap CMS -->
+      <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  </head>
+  <body>
+      <script>
+            // Write settings directly as JS object
+            const config = {
+                    backend: {
+                              name: "git-gateway",
+                              branch: "main"
+                    },
+                    media_folder: "assets",
+                    public_folder: "assets",
+                    collections: [
+                      {
+                                  name: "site_data",
+                                  label: String.fromCharCode(12469,12452,12488,12467,12531,12486,12531,12484,31649,29702),
+                                  delete: false,
+                                  editor: {
+                                                preview: false
+                                  },
+                                  files: [
+                                                // 1. News
+                                    {
+                                                    file: "data/news.json",
+                                                    label: String.fromCharCode(26032,30528,12362,12375,12425,12379),
+                                                    name: "news",
+                                                    fields: [
+                                                      {
+                                                                          label: String.fromCharCode(12362,12375,12425,12379,19968,35239),
+                                                                          name: "news_items",
+                                                                          widget: "list",
+                                                                          fields: [
+                                                                            { label: String.fromCharCode(26085,20184), name: "date", widget: "string" },
+                                                                            { label: String.fromCharCode(12362,12375,12425,12379,20869,23481), name: "text", widget: "string" },
+                                                                            { label: String.fromCharCode(35443,32064,85,82,76,65288,20219,24847,65289), name: "link", widget: "string", required: false }
+                                                                                              ]
+                                                      }
+                                                                    ]
+                                    },
+                                                // 2. Therapists
+                                    {
+                                                    file: "data/therapists.json",
+                                                    label: String.fromCharCode(12475,12521,12500,12473,12488,24773,22577,31649,29702),
+                                                    name: "therapists",
+                                                    fields: [
+                                                      {
+                                                                          label: String.fromCharCode(22312,31821,12461,12515,12473,12488,19968,35239),
+                                                                          name: "therapist_items",
+                                                                          widget: "list",
+                                                                          fields: [
+                                                                            { label: String.fromCharCode(12461,12515,12473,12488,73,68,65288,33521,23383,19968,24847,12539,20363,58,32,114,105,114,105,65289), name: "id", widget: "string" },
+                                                                            { label: String.fromCharCode(12461,12515,12473,12488,21517,65288,34920,31034,29992,65289), name: "name", widget: "string" },
+                                                                            { label: String.fromCharCode(24180,40802), name: "age", widget: "string" },
+                                                                            { label: String.fromCharCode(36523,38263), name: "height", widget: "string" },
+                                                                            { label: String.fromCharCode(12461,12515,12473,12488,30011,20687), name: "image", widget: "image" },
+                                                                            { label: String.fromCharCode(12487,12501,12457,12523,12488,22522,26412,20986,21244,26178,38291), name: "time", widget: "string" },
+                                                                            { label: String.fromCharCode(26032,20154,12501,12521,12464), name: "is_new", widget: "boolean", default: false }
+                                                                                              ]
+                                                      }
+                                                                    ]
+                                    },
+                                                // 3. Schedule
+                                    {
+                                                    file: "data/schedule.json",
+                                                    label: String.fromCharCode(20986,21244,12473,12465,12472,12517,12540,12523,31649,29702),
+                                                    name: "schedule",
+                                                    fields: [
+                                                      {
+                                                                          label: String.fromCharCode(26085,21029,20986,21244,29366,27841),
+                                                                          name: "days",
+                                                                          widget: "list",
+                                                                          fields: [
+                                                                            { label: String.fromCharCode(26085,20184,12461,12540,65288,22266,23450,58,32,116,111,100,97,121,44,32,116,111,109,111,114,114,111,119,44,32,100,97,121,97,102,116,101,114,65289), name: "day_key", widget: "string" },
+                                                                            { label: String.fromCharCode(26085,20184,34920,31034,12521,12509,12523,65288,20363,58,32,26412,26085,32,53,47,50,56,32,40,26408,41,65289), name: "day_label", widget: "string" },
+                                                                            {
+                                                                                                    label: String.fromCharCode(20986,21244,12377,12427,12461,12515,12473,12488),
+                                                                                                    name: "casts",
+                                                                                                    widget: "list",
+                                                                                                    fields: [
+                                                                                                      { label: String.fromCharCode(12461,12515,12473,12488,73,68,65288,30331,37682,28168,12415,12398,33521,23383,73,68,65289), name: "therapist_id", widget: "string" },
+                                                                                                      { label: String.fromCharCode(20986,21244,26178,38291,65288,20363,58,32,49,53,58,48,48,32,12316,32,32716,50,58,48,48,32,47,32,12372,20104,32004,23436,22770,65289), name: "time", widget: "string" },
+                                                                                                      { label: String.fromCharCode(12372,20104,32004,23436,22770,12501,12521,12464), name: "is_soldout", widget: "boolean", default: false }
+                                                                                                                            ]
+                                                                              }
+                                                                                              ]
+                                                      }
+                                                                    ]
+                                    },
+                                                // 4. Blogs
+                                    {
+                                                    file: "data/blogs.json",
+                                                    label: String.fromCharCode(12461,12515,12473,12488,12502,12525,12464,31649,29702),
+                                                    name: "blogs",
+                                                    fields: [
+                                                      {
+                                                                          label: String.fromCharCode(12502,12525,12464,25237,31295,19968,35239),
+                                                                          name: "blog_items",
+                                                                          widget: "list",
+                                                                          fields: [
+                                                                            { label: String.fromCharCode(25237,31295,26085,65288,20363,58,32,50,48,50,54,46,48,53,46,50,56,65289), name: "date", widget: "string" },
+                                                                            { label: String.fromCharCode(22519,30278,12461,12515,12473,12488,21517,65288,34920,31034,29992,65289), name: "cast_name", widget: "string" },
+                                                                            { label: String.fromCharCode(12502,12525,12464,12479,12452,12488,12523), name: "title", widget: "string" },
+                                                                            { label: String.fromCharCode(12502,12525,12464,26412,25991,65288,12503,12524,12540,12531,12487,12461,12473,12488,65289), name: "summary", widget: "text" }
+                                                                                              ]
+                                                      }
+                                                                    ]
+                                    },
+                                                // 5. Site Config
+                                    {
+                                                    file: "data/site_config.json",
+                                                    label: String.fromCharCode(12469,12452,12488,22522,26412,35373,23450,32,40,12496,12490,12540,31561,41),
+                                                    name: "site_config",
+                                                    fields: [
+                                                      { label: String.fromCharCode(12513,12452,12531,12496,12490,12540,32972,26223,30011,20687), name: "hero_bg", widget: "image" }
+                                                                    ]
+                                    },
+                                                // 6. Prices
+                                    {
+                                                    file: "data/prices.json",
+                                                    label: String.fromCharCode(26009,37329,12471,12473,12487,12512,31649,29702),
+                                                    name: "prices",
+                                                    fields: [
+                                                      {
+                                                                          label: String.fromCharCode(22522,26412,12467,12540,12473,35373,23450),
+                                                                          name: "courses",
+                                                                          widget: "list",
+                                                                          fields: [
+                                                                            { label: String.fromCharCode(12467,12540,12473,12459,12487,12468,12522,21517,65288,20363,58,32,83,116,97,110,100,97,114,100,32,67,111,117,114,115,101,65289), name: "category", widget: "string" },
+                                                                            { label: String.fromCharCode(12459,12487,12468,12522,35500,26126,25991), name: "description", widget: "string" },
+                                                                            {
+                                                                                                    label: String.fromCharCode(12467,12540,12473,26009,37329,19968,35239),
+                                                                                                    name: "items",
+                                                                                                    widget: "list",
+                                                                                                    fields: [
+                                                                                                      { label: String.fromCharCode(12467,12540,12473,21517,65288,20363,58,32,57,48,20998,12467,12540,12473,65289), name: "name", widget: "string" },
+                                                                                                      { label: String.fromCharCode(12467,12540,12473,35500,26126), name: "desc", widget: "string" },
+                                                                                                      { label: String.fromCharCode(26009,37329,65288,20363,58,32,50,48,44,48,48,48,65289), name: "price", widget: "string" }
+                                                                                                                            ]
+                                                                              }
+                                                                                              ]
+                                                      },
+                                                      {
+                                                                          label: String.fromCharCode(12458,12503,12471,12519,12531,26009,37329,35373,23450),
+                                                                          name: "options",
+                                                                          widget: "list",
+                                                                          fields: [
+                                                                            { label: String.fromCharCode(12458,12503,12471,12519,12531,21517), name: "name", widget: "string" },
+                                                                            { label: String.fromCharCode(26009,37329,65288,20363,58,32,50,44,48,48,48,32,12414,12383,12399,32,29017,26009,65289), name: "price", widget: "string" }
+                                                                                              ]
+                                                      }
+                                                                    ]
+                                    }
+                                              ]
+                      }
+                            ]
+            };
 
+            // Initialize CMS
+            CMS.init({ config });
+      </script>
+  </body>
+</html>html>
+  </body>
+    </script></title>
+  </head>
