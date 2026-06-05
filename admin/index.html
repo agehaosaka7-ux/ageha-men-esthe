@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -130,6 +131,42 @@
               fields: [
                 { label: "メインバナー背景画像", name: "hero_bg", widget: "image" }
               ]
+            },
+            // 6. 料金システム設定
+            {
+              file: "data/prices.json",
+              label: "料金システム管理",
+              name: "prices",
+              fields: [
+                {
+                  label: "基本コース設定",
+                  name: "courses",
+                  widget: "list",
+                  fields: [
+                    { label: "コースカテゴリ名（例: Standard Course）", name: "category", widget: "string" },
+                    { label: "カテゴリ説明文", name: "description", widget: "string" },
+                    {
+                      label: "コース料金一覧",
+                      name: "items",
+                      widget: "list",
+                      fields: [
+                        { label: "コース名（例: 90分コース）", name: "name", widget: "string" },
+                        { label: "コース説明", name: "desc", widget: "string" },
+                        { label: "料金（例: 20,000）", name: "price", widget: "string" }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  label: "オプション料金設定",
+                  name: "options",
+                  widget: "list",
+                  fields: [
+                    { label: "オプション名", name: "name", widget: "string" },
+                    { label: "料金（例: 2,000 または 無料）", name: "price", widget: "string" }
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -141,3 +178,5 @@
   </script>
 </body>
 </html>
+Pressing key...Clicking...Stopping...
+
